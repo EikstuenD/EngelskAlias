@@ -1,4 +1,4 @@
-/* --- DATA --- */
+/* --- DATA (Inkludert alle de nye kategoriene) --- */
 const gameData = {
     general: {
         easy: ["Apple", "Car", "Sun", "Book", "Chair", "Shoe", "Tree", "Moon", "Cat", "Door", "Water", "Smile"],
@@ -87,7 +87,7 @@ const gameData = {
     }
 };
 
-/* --- STATE --- */
+/* --- STATE VARIABLES --- */
 let activeCards = [];
 let score = 0;
 let timer;
@@ -99,6 +99,7 @@ let roundHistory = [];
 
 /* --- FUNCTIONS --- */
 
+// Bytter mellom skjermer (Setup, Game, Summary)
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => {
         s.classList.remove('active');
@@ -117,17 +118,17 @@ function startGame() {
 
     let sourceData = gameData[category][difficulty];
     
-    // Check if enough words
+    // Sjekker om det er nok ord
     if (!sourceData || sourceData.length < 8) {
         alert("Ops! Not enough words in this category yet (Need 8). Try another category.");
         return;
     }
 
-    // Shuffle and pick 8
+    // Stokker ordene og velger 8
     let shuffled = [...sourceData].sort(() => 0.5 - Math.random());
     activeCards = shuffled.slice(0, 8);
 
-    // Reset State
+    // Nullstiller
     score = 0;
     wordsSolved = 0;
     roundHistory = [];
@@ -135,8 +136,8 @@ function startGame() {
     document.getElementById('score-display').innerText = score;
     document.getElementById('action-buttons').classList.add('hidden');
 
-    // Timer Setup
-    clearInterval(timer); // Safety clear
+    // Timer Logic
+    clearInterval(timer); 
     if (timeVal === "unlimited") {
         isUnlimitedTime = true;
         document.getElementById('timer-display').innerText = "∞";
@@ -151,22 +152,21 @@ function startGame() {
     showScreen('game-screen');
 }
 
-// NEW: Function to go back to menu
+// Funksjon for å gå tilbake til menyen
 function goToMenu() {
     clearInterval(timer);
-    // Vi spør ikke om bekreftelse, bare går rett til menyen for enkelhets skyld
     showScreen('setup-screen');
 }
 
 function setupGrid(difficulty) {
     const grid = document.getElementById('card-grid');
-    grid.innerHTML = "";
+    grid.innerHTML = ""; // Tømmer rutenettet
 
     activeCards.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = 'game-card';
         card.dataset.index = index;
-        card.innerText = index + 1; 
+        card.innerText = index + 1; // Tallet på baksiden
         card.onclick = () => flipCard(index, item);
         grid.appendChild(card);
     });
@@ -176,10 +176,10 @@ function flipCard(index, item) {
     const cardEl = document.querySelector(`.game-card[data-index='${index}']`);
     if (cardEl.classList.contains('solved') || cardEl.classList.contains('skipped')) return;
 
-    // If clicking same card, do nothing
+    // Hvis vi trykker på det samme kortet igjen
     if (currentSelectedCardIndex === index) return;
 
-    // Reset visual state of other cards (close them)
+    // Lukk alle andre kort visuelt
     document.querySelectorAll('.game-card').forEach(c => {
         if (!c.classList.contains('solved') && !c.classList.contains('skipped')) {
             c.classList.remove('flipped');
@@ -190,7 +190,7 @@ function flipCard(index, item) {
     currentSelectedCardIndex = index;
     cardEl.classList.add('flipped');
     
-    // Render Content
+    // Generer innholdet på kortet
     let contentHtml = "";
     if (typeof item === 'string') {
         contentHtml = `<div class="card-content"><span class="word-text">${item}</span></div>`;
@@ -206,6 +206,7 @@ function flipCard(index, item) {
     }
     cardEl.innerHTML = contentHtml;
 
+    // Vis knappene
     document.getElementById('action-buttons').classList.remove('hidden');
 }
 
@@ -221,12 +222,12 @@ function handleResult(action) {
         cardEl.classList.add('solved');
         roundHistory.push({ word: wordText, status: "correct" });
     } else {
-        score--; // Minus points
+        score--; // Minuspoeng
         cardEl.classList.add('skipped');
         roundHistory.push({ word: wordText, status: "passed" });
     }
 
-    // Reset card look (keep color but remove text)
+    // Fjern teksten på kortet, vis symbol
     cardEl.classList.remove('flipped');
     cardEl.innerHTML = action === 'correct' ? "★" : "X"; 
 
