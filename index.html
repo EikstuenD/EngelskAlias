@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classroom Alias: Mega Edition</title>
+    <title>Classroom Alias: Battle Mode</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -15,10 +15,18 @@
         <section id="setup-screen" class="screen active">
             <header class="main-header">
                 <h1>🇬🇧 Alias: <span class="highlight">Classroom</span></h1>
-                <p>Choose a topic and start explaining!</p>
+                <p>Enter player names and start battling!</p>
             </header>
             
             <div class="settings-card">
+                
+                <!-- NYTT: Input for spillernavn -->
+                <div class="settings-group">
+                    <label>Players (separate with comma):</label>
+                    <input type="text" id="player-input" placeholder="e.g. Kristian, Marie, Ole" value="">
+                    <p class="small-text">* Leave empty for single player / standard mode.</p>
+                </div>
+
                 <div class="settings-group">
                     <label>Choose Category (18 Topics):</label>
                     <select id="category-select">
@@ -68,9 +76,8 @@
 
         <!-- SCREEN 2: GAMEPLAY (SPILLET) -->
         <section id="game-screen" class="screen hidden">
-            <!-- Back Button -->
             <div class="header-bar">
-                <button onclick="goToMenu()" class="btn-back">⬅ Back to Menu</button>
+                <button onclick="goToMenu()" class="btn-back">⬅ Menu</button>
             </div>
 
             <div class="top-bar">
@@ -78,24 +85,24 @@
                     <span class="label">Time</span>
                     <span class="value timer" id="timer-display">60</span>
                 </div>
+                <!-- Viser nå hvor mange kort som er igjen i stedet for score -->
                 <div class="stat-box">
-                    <span class="label">Score</span>
-                    <span class="value score" id="score-display">0</span>
+                    <span class="label">Cards Left</span>
+                    <span class="value score" id="cards-left-display">8</span>
                 </div>
             </div>
 
-            <p class="instruction-text">Tap a card to reveal the word!</p>
+            <p class="instruction-text">Tap a card, then choose who guessed it!</p>
 
             <!-- Grid med 8 kort -->
             <div id="card-grid" class="card-grid"></div>
 
-            <!-- Knapper (Vises først når et kort er snudd) -->
-            <div class="controls hidden" id="action-buttons">
-                <button onclick="handleResult('pass')" class="btn-action btn-pass">Pass (-1)</button>
-                <button onclick="handleResult('correct')" class="btn-action btn-correct">Correct (+1)</button>
+            <!-- NYTT: Dynamiske knapper for spillere -->
+            <!-- Dette området fylles av JavaScript når et kort snus -->
+            <div class="controls hidden" id="player-buttons-container">
+                <!-- Buttons will be injected here -->
             </div>
 
-            <!-- Hjelpeboksen -->
             <div class="help-section">
                 <p class="help-title">💡 Helper Phrases</p>
                 <div class="help-phrases">
@@ -111,8 +118,11 @@
         <section id="summary-screen" class="screen hidden">
             <div class="summary-card">
                 <h2>Game Over!</h2>
-                <div class="final-score-display">
-                    Score: <span id="final-score">0</span>
+                
+                <!-- NYTT: Leaderboard -->
+                <div class="leaderboard-box">
+                    <h3>🏆 Final Scores:</h3>
+                    <ul id="leaderboard-list"></ul>
                 </div>
                 
                 <div class="review-box">
