@@ -1,5 +1,4 @@
 /* --- DATA --- */
-// 18 Kategorier x 3 Nivåer x 8 Ord
 const gameData = {
     general: {
         easy: ["House", "Car", "Dog", "Cat", "Book", "Chair", "Sun", "Water"],
@@ -95,7 +94,8 @@ const gameData = {
 
 /* --- STATE --- */
 let activeCards = [];
-let score = 0;
+let playerScores = {}; // Holder styr på navn og poeng
+let playerNames = [];
 let timer;
 let timeRemaining;
 let isUnlimitedTime = false;
@@ -120,28 +120,42 @@ function startGame() {
     const category = document.getElementById('category-select').value;
     const difficulty = document.getElementById('difficulty-select').value;
     const timeVal = document.getElementById('timer-select').value;
+    
+    // NYTT: Hent spillernavn
+    const nameInput = document.getElementById('player-input').value;
+    
+    // Splitter på komma, fjerner mellomrom, og filtrerer ut tomme navn
+    playerNames = nameInput.split(',').map(n => n.trim()).filter(n => n.length > 0);
+    
+    // Hvis ingen navn er skrevet inn, bruk standard
+    if (playerNames.length === 0) {
+        playerNames = ["Winner"];
+    }
+
+    // Nullstill poeng
+    playerScores = {};
+    playerNames.forEach(name => {
+        playerScores[name] = 0;
+    });
 
     let sourceData = gameData[category][difficulty];
     
-    // Safety check if category is empty
     if (!sourceData || sourceData.length < 8) {
         alert("Ops! Not enough words in this category yet. Need at least 8.");
         return;
     }
 
-    // Clone array and shuffle (To ensure we don't modify original data)
     let shuffled = [...sourceData].sort(() => 0.5 - Math.random());
-    activeCards = shuffled.slice(0, 8); // Take first 8
+    activeCards = shuffled.slice(0, 8);
 
-    // Reset State
-    score = 0;
     wordsSolved = 0;
     roundHistory = [];
     currentSelectedCardIndex = null;
-    document.getElementById('score-display').innerText = score;
-    document.getElementById('action-buttons').classList.add('hidden');
+    
+    // Oppdater visning
+    document.getElementById('cards-left-display').innerText = 8;
+    document.getElementById('player-buttons-container').classList.add('hidden');
 
-    // Timer Logic
     clearInterval(timer); 
     if (timeVal === "unlimited") {
         isUnlimitedTime = true;
@@ -182,7 +196,6 @@ function flipCard(index, item) {
     if (cardEl.classList.contains('solved') || cardEl.classList.contains('skipped')) return;
     if (currentSelectedCardIndex === index) return;
 
-    // Reset other cards
     document.querySelectorAll('.game-card').forEach(c => {
         if (!c.classList.contains('solved') && !c.classList.contains('skipped')) {
             c.classList.remove('flipped');
@@ -193,12 +206,10 @@ function flipCard(index, item) {
     currentSelectedCardIndex = index;
     cardEl.classList.add('flipped');
     
-    // Render content (Note: Hard mode is now simple words too, but code handles objects if added later)
     let contentHtml = "";
     if (typeof item === 'string') {
         contentHtml = `<div class="card-content"><span class="word-text">${item}</span></div>`;
     } else {
-        // Keeps support for Forbidden words if you add them later
         let forbiddenHtml = item.forbidden.map(f => `<li>🚫 ${f}</li>`).join('');
         contentHtml = `
             <div class="card-content">
@@ -208,34 +219,61 @@ function flipCard(index, item) {
         `;
     }
     cardEl.innerHTML = contentHtml;
-    document.getElementById('action-buttons').classList.remove('hidden');
+    
+    // NYTT: Lag knappene basert på spillernavn
+    generatePlayerButtons();
 }
 
-function handleResult(action) {
+function generatePlayerButtons() {
+    const container = document.getElementById('player-buttons-container');
+    container.innerHTML = ""; // Tøm tidligere knapper
+    container.classList.remove('hidden');
+
+    // Lag knapp for hver spiller
+    playerNames.forEach(name => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-player';
+        btn.innerText = name;
+        btn.onclick = () => handleResult(name); // Send navnet videre
+        container.appendChild(btn);
+    });
+
+    // Legg til Pass-knapp
+    const passBtn = document.createElement('button');
+    passBtn.className = 'btn-pass-action';
+    passBtn.innerText = "Pass / No one";
+    passBtn.onclick = () => handleResult(null); // Null betyr pass
+    container.appendChild(passBtn);
+}
+
+function handleResult(winnerName) {
     if (currentSelectedCardIndex === null) return;
 
     const cardEl = document.querySelector(`.game-card[data-index='${currentSelectedCardIndex}']`);
     let wordObj = activeCards[currentSelectedCardIndex];
     let wordText = (typeof wordObj === 'string') ? wordObj : wordObj.word;
 
-    if (action === 'correct') {
-        score++;
+    if (winnerName) {
+        // En spiller fikk riktig
+        playerScores[winnerName]++;
         cardEl.classList.add('solved');
-        roundHistory.push({ word: wordText, status: "correct" });
+        cardEl.innerHTML = "★"; 
+        roundHistory.push({ word: wordText, winner: winnerName, status: 'correct' });
     } else {
-        score--; // Minus points
+        // Pass
         cardEl.classList.add('skipped');
-        roundHistory.push({ word: wordText, status: "passed" });
+        cardEl.innerHTML = "X"; 
+        roundHistory.push({ word: wordText, winner: '-', status: 'passed' });
     }
 
     cardEl.classList.remove('flipped');
-    cardEl.innerHTML = action === 'correct' ? "★" : "X"; 
-
-    document.getElementById('score-display').innerText = score;
-    document.getElementById('action-buttons').classList.add('hidden');
+    document.getElementById('player-buttons-container').classList.add('hidden');
     
     currentSelectedCardIndex = null;
     wordsSolved++;
+    
+    // Oppdater "Cards Left"
+    document.getElementById('cards-left-display').innerText = (8 - wordsSolved);
 
     if (wordsSolved >= 8) {
         endGame();
@@ -255,18 +293,37 @@ function startTimer() {
 function endGame() {
     clearInterval(timer);
     showScreen('summary-screen');
-    document.getElementById('final-score').innerText = score;
     
+    // Vis Leaderboard
+    const leaderboardList = document.getElementById('leaderboard-list');
+    leaderboardList.innerHTML = "";
+    
+    // Sorter spillere etter poeng (høyest først)
+    let sortedPlayers = Object.keys(playerScores).sort((a,b) => playerScores[b] - playerScores[a]);
+    
+    sortedPlayers.forEach(name => {
+        let li = document.createElement('li');
+        li.innerHTML = `<span>${name}</span> <span>${playerScores[name]} pts</span>`;
+        leaderboardList.appendChild(li);
+    });
+    
+    // Vis Ordliste
     const list = document.getElementById('review-list');
     list.innerHTML = "";
     roundHistory.forEach(r => {
         let li = document.createElement('li');
         li.innerText = `${r.word}`;
-        li.style.color = (r.status === 'correct') ? 'var(--correct)' : 'var(--pass)';
+        
+        if(r.status === 'correct') {
+             li.style.color = 'var(--correct)';
+             li.innerHTML += ` (Winner: ${r.winner})`;
+        } else {
+             li.style.color = 'var(--pass)';
+             li.innerHTML += ` (Skipped)`;
+        }
+        
         li.style.fontWeight = "bold";
         li.style.marginBottom = "5px";
-        let icon = r.status === 'correct' ? ' ✅' : ' ❌';
-        li.innerText += icon;
         list.appendChild(li);
     });
 }
