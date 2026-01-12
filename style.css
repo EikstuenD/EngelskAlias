@@ -1,11 +1,11 @@
 :root {
-    --primary: #6C63FF;      /* Modern Purple */
+    --primary: #6C63FF;      /* Moderne Lilla */
     --primary-dark: #5a52d5;
     --secondary: #2F2E41;
-    --background: #F0F2F5;   /* Light Grayish Blue */
+    --background: #F0F2F5;   /* Lys gråblå */
     --card-bg: #FFFFFF;
-    --correct: #00B894;      /* Mint Green */
-    --pass: #FF7675;         /* Soft Red */
+    --correct: #00B894;      /* Mintgrønn */
+    --pass: #FF7675;         /* Myk Rød */
     --card-back: linear-gradient(135deg, #6C63FF 0%, #a8a4ff 100%);
     --text: #2d3436;
     --font: 'Poppins', sans-serif;
@@ -18,7 +18,7 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Better for scrolling on mobile */
+    align-items: flex-start; /* Bedre for scrolling på mobil */
     min-height: 100vh;
     padding-top: 20px;
 }
