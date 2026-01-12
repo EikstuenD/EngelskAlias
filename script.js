@@ -94,7 +94,7 @@ const gameData = {
 
 /* --- STATE --- */
 let activeCards = [];
-let playerScores = {}; // Holder styr på navn og poeng
+let playerScores = {};
 let playerNames = [];
 let timer;
 let timeRemaining;
@@ -121,30 +121,24 @@ function startGame() {
     const difficulty = document.getElementById('difficulty-select').value;
     const timeVal = document.getElementById('timer-select').value;
     
-    // NYTT: Hent spillernavn
+    // Hent spillernavn
     const nameInput = document.getElementById('player-input').value;
-    
-    // Splitter på komma, fjerner mellomrom, og filtrerer ut tomme navn
     playerNames = nameInput.split(',').map(n => n.trim()).filter(n => n.length > 0);
     
-    // Hvis ingen navn er skrevet inn, bruk standard
     if (playerNames.length === 0) {
         playerNames = ["Winner"];
     }
 
-    // Nullstill poeng
     playerScores = {};
-    playerNames.forEach(name => {
-        playerScores[name] = 0;
-    });
+    playerNames.forEach(name => { playerScores[name] = 0; });
 
     let sourceData = gameData[category][difficulty];
-    
     if (!sourceData || sourceData.length < 8) {
         alert("Ops! Not enough words in this category yet. Need at least 8.");
         return;
     }
 
+    // Shuffle
     let shuffled = [...sourceData].sort(() => 0.5 - Math.random());
     activeCards = shuffled.slice(0, 8);
 
@@ -152,7 +146,6 @@ function startGame() {
     roundHistory = [];
     currentSelectedCardIndex = null;
     
-    // Oppdater visning
     document.getElementById('cards-left-display').innerText = 8;
     document.getElementById('player-buttons-container').classList.add('hidden');
 
@@ -210,39 +203,31 @@ function flipCard(index, item) {
     if (typeof item === 'string') {
         contentHtml = `<div class="card-content"><span class="word-text">${item}</span></div>`;
     } else {
-        let forbiddenHtml = item.forbidden.map(f => `<li>🚫 ${f}</li>`).join('');
-        contentHtml = `
-            <div class="card-content">
-                <span class="word-text" style="color:#E74C3C; font-size:1.1rem;">${item.word}</span>
-                <ul class="forbidden-list">${forbiddenHtml}</ul>
-            </div>
-        `;
+        // Fallback for object-based words (if mixed data)
+        contentHtml = `<div class="card-content"><span class="word-text">${item.word}</span></div>`;
     }
     cardEl.innerHTML = contentHtml;
     
-    // NYTT: Lag knappene basert på spillernavn
     generatePlayerButtons();
 }
 
 function generatePlayerButtons() {
     const container = document.getElementById('player-buttons-container');
-    container.innerHTML = ""; // Tøm tidligere knapper
+    container.innerHTML = ""; 
     container.classList.remove('hidden');
 
-    // Lag knapp for hver spiller
     playerNames.forEach(name => {
         const btn = document.createElement('button');
         btn.className = 'btn-player';
         btn.innerText = name;
-        btn.onclick = () => handleResult(name); // Send navnet videre
+        btn.onclick = () => handleResult(name); 
         container.appendChild(btn);
     });
 
-    // Legg til Pass-knapp
     const passBtn = document.createElement('button');
     passBtn.className = 'btn-pass-action';
     passBtn.innerText = "Pass / No one";
-    passBtn.onclick = () => handleResult(null); // Null betyr pass
+    passBtn.onclick = () => handleResult(null); 
     container.appendChild(passBtn);
 }
 
@@ -254,13 +239,11 @@ function handleResult(winnerName) {
     let wordText = (typeof wordObj === 'string') ? wordObj : wordObj.word;
 
     if (winnerName) {
-        // En spiller fikk riktig
         playerScores[winnerName]++;
         cardEl.classList.add('solved');
         cardEl.innerHTML = "★"; 
         roundHistory.push({ word: wordText, winner: winnerName, status: 'correct' });
     } else {
-        // Pass
         cardEl.classList.add('skipped');
         cardEl.innerHTML = "X"; 
         roundHistory.push({ word: wordText, winner: '-', status: 'passed' });
@@ -272,7 +255,6 @@ function handleResult(winnerName) {
     currentSelectedCardIndex = null;
     wordsSolved++;
     
-    // Oppdater "Cards Left"
     document.getElementById('cards-left-display').innerText = (8 - wordsSolved);
 
     if (wordsSolved >= 8) {
@@ -294,11 +276,9 @@ function endGame() {
     clearInterval(timer);
     showScreen('summary-screen');
     
-    // Vis Leaderboard
     const leaderboardList = document.getElementById('leaderboard-list');
     leaderboardList.innerHTML = "";
     
-    // Sorter spillere etter poeng (høyest først)
     let sortedPlayers = Object.keys(playerScores).sort((a,b) => playerScores[b] - playerScores[a]);
     
     sortedPlayers.forEach(name => {
@@ -307,13 +287,11 @@ function endGame() {
         leaderboardList.appendChild(li);
     });
     
-    // Vis Ordliste
     const list = document.getElementById('review-list');
     list.innerHTML = "";
     roundHistory.forEach(r => {
         let li = document.createElement('li');
         li.innerText = `${r.word}`;
-        
         if(r.status === 'correct') {
              li.style.color = 'var(--correct)';
              li.innerHTML += ` (Winner: ${r.winner})`;
@@ -321,7 +299,6 @@ function endGame() {
              li.style.color = 'var(--pass)';
              li.innerHTML += ` (Skipped)`;
         }
-        
         li.style.fontWeight = "bold";
         li.style.marginBottom = "5px";
         list.appendChild(li);
