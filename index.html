@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classroom Alias 3.0</title>
-    <!-- Henter inn en pen font fra Google -->
+    <!-- Henter fonten Poppins fra Google -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Kobler til stilarket -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="app-wrapper">
         
-        <!-- SCREEN 1: SETUP -->
+        <!-- SCREEN 1: SETUP (MENY) -->
         <section id="setup-screen" class="screen active">
             <header class="main-header">
                 <h1>🇬🇧 Alias: <span class="highlight">Digital</span></h1>
@@ -57,7 +58,7 @@
             </div>
         </section>
 
-        <!-- SCREEN 2: GAMEPLAY -->
+        <!-- SCREEN 2: GAMEPLAY (SPILLET) -->
         <section id="game-screen" class="screen hidden">
             <!-- Back Button -->
             <button onclick="goToMenu()" class="btn-back">← Menu</button>
@@ -75,16 +76,16 @@
 
             <p class="instruction-text">Tap a card to reveal the word!</p>
 
-            <!-- 8 Cards Grid -->
+            <!-- Grid med 8 kort -->
             <div id="card-grid" class="card-grid"></div>
 
-            <!-- Action Buttons (Hidden until card is flipped) -->
+            <!-- Knapper (Vises først når et kort er snudd) -->
             <div class="controls hidden" id="action-buttons">
                 <button onclick="handleResult('pass')" class="btn-action btn-pass">Pass (-1)</button>
                 <button onclick="handleResult('correct')" class="btn-action btn-correct">Correct (+1)</button>
             </div>
 
-            <!-- Help / Scaffolding -->
+            <!-- Hjelpeboksen -->
             <div class="help-section">
                 <p class="help-title">💡 Helper Phrases</p>
                 <div class="help-phrases">
@@ -95,7 +96,7 @@
             </div>
         </section>
 
-        <!-- SCREEN 3: SUMMARY -->
+        <!-- SCREEN 3: SUMMARY (OPPSUMMERING) -->
         <section id="summary-screen" class="screen hidden">
             <div class="summary-card">
                 <h2>Game Over!</h2>
@@ -117,6 +118,7 @@
 
     </div>
 
+    <!-- Kobler til JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
