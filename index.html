@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classroom Alias 3.1</title>
+    <title>Classroom Alias: Mega Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,34 +11,44 @@
 
     <div class="app-wrapper">
         
-        <!-- SCREEN 1: SETUP -->
+        <!-- SCREEN 1: SETUP (MENY) -->
         <section id="setup-screen" class="screen active">
             <header class="main-header">
-                <h1>🇬🇧 Alias: <span class="highlight">Digital</span></h1>
-                <p>Pick a topic and start explaining!</p>
+                <h1>🇬🇧 Alias: <span class="highlight">Classroom</span></h1>
+                <p>Choose a topic and start explaining!</p>
             </header>
             
             <div class="settings-card">
                 <div class="settings-group">
-                    <label>Choose Topic:</label>
+                    <label>Choose Category (18 Topics):</label>
                     <select id="category-select">
-                        <option value="general">General English (Mixed)</option>
-                        <option value="gaming">Gaming & Social Media</option>
-                        <option value="school">School & Life</option>
-                        <option value="family">Family & Home</option>
-                        <option value="shopping">Shopping & Money</option>
-                        <option value="food">Food & Cooking</option>
-                        <option value="travel">Travel & Transport</option>
-                        <option value="emotions">Emotions & Personality</option>
+                        <option value="general">1. General (Hverdagsliv)</option>
+                        <option value="emotions">2. Emotions (Følelser)</option>
+                        <option value="travel">3. Travel (Reise)</option>
+                        <option value="food">4. Food (Mat)</option>
+                        <option value="shopping">5. Shopping</option>
+                        <option value="family">6. Family (Familie)</option>
+                        <option value="school">7. School (Skole)</option>
+                        <option value="gaming">8. Gaming</option>
+                        <option value="social">9. Social Media & Internet</option>
+                        <option value="movies">10. Movies & Music</option>
+                        <option value="sports">11. Sports & Hobbies</option>
+                        <option value="body">12. Body & Health (Kropp/Helse)</option>
+                        <option value="jobs">13. Jobs & Professions (Yrker)</option>
+                        <option value="weather">14. Weather & Nature (Vær/Natur)</option>
+                        <option value="action">15. Action Words (Verb)</option>
+                        <option value="describing">16. Describing Words (Adjektiv)</option>
+                        <option value="world">17. The English World (Kultur)</option>
+                        <option value="crime">18. Crime & Mystery (Krim)</option>
                     </select>
                 </div>
 
                 <div class="settings-group">
-                    <label>Difficulty:</label>
+                    <label>Difficulty Level:</label>
                     <select id="difficulty-select">
-                        <option value="easy">Level 1: Easy (Concrete words)</option>
-                        <option value="medium" selected>Level 2: Medium (Mixed)</option>
-                        <option value="hard">Level 3: Hard (Taboo Mode)</option>
+                        <option value="easy">Level 1: Easy (Lett)</option>
+                        <option value="medium" selected>Level 2: Medium</option>
+                        <option value="hard">Level 3: Hard (Vanskelig)</option>
                     </select>
                 </div>
 
@@ -56,9 +66,9 @@
             </div>
         </section>
 
-        <!-- SCREEN 2: GAMEPLAY -->
+        <!-- SCREEN 2: GAMEPLAY (SPILLET) -->
         <section id="game-screen" class="screen hidden">
-            <!-- Back Button - Nå med tydeligere plassering -->
+            <!-- Back Button -->
             <div class="header-bar">
                 <button onclick="goToMenu()" class="btn-back">⬅ Back to Menu</button>
             </div>
@@ -76,24 +86,28 @@
 
             <p class="instruction-text">Tap a card to reveal the word!</p>
 
+            <!-- Grid med 8 kort -->
             <div id="card-grid" class="card-grid"></div>
 
+            <!-- Knapper (Vises først når et kort er snudd) -->
             <div class="controls hidden" id="action-buttons">
                 <button onclick="handleResult('pass')" class="btn-action btn-pass">Pass (-1)</button>
                 <button onclick="handleResult('correct')" class="btn-action btn-correct">Correct (+1)</button>
             </div>
 
+            <!-- Hjelpeboksen -->
             <div class="help-section">
                 <p class="help-title">💡 Helper Phrases</p>
                 <div class="help-phrases">
                     <span>"It looks like..."</span>
                     <span>"You use it when..."</span>
-                    <span>"It's similar to..."</span>
+                    <span>"It is the opposite of..."</span>
+                    <span>"It rhymes with..."</span>
                 </div>
             </div>
         </section>
 
-        <!-- SCREEN 3: SUMMARY -->
+        <!-- SCREEN 3: SUMMARY (OPPSUMMERING) -->
         <section id="summary-screen" class="screen hidden">
             <div class="summary-card">
                 <h2>Game Over!</h2>
