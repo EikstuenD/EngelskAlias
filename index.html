@@ -20,7 +20,7 @@
             
             <div class="settings-card">
                 
-                <!-- NYTT: Input for spillernavn -->
+                <!-- Input for spillernavn -->
                 <div class="settings-group">
                     <label>Players (separate with comma):</label>
                     <input type="text" id="player-input" placeholder="e.g. Kristian, Marie, Ole" value="">
@@ -85,7 +85,6 @@
                     <span class="label">Time</span>
                     <span class="value timer" id="timer-display">60</span>
                 </div>
-                <!-- Viser nå hvor mange kort som er igjen i stedet for score -->
                 <div class="stat-box">
                     <span class="label">Cards Left</span>
                     <span class="value score" id="cards-left-display">8</span>
@@ -97,11 +96,8 @@
             <!-- Grid med 8 kort -->
             <div id="card-grid" class="card-grid"></div>
 
-            <!-- NYTT: Dynamiske knapper for spillere -->
-            <!-- Dette området fylles av JavaScript når et kort snus -->
-            <div class="controls hidden" id="player-buttons-container">
-                <!-- Buttons will be injected here -->
-            </div>
+            <!-- Område for spiller-knapper (genereres via JS) -->
+            <div class="controls hidden" id="player-buttons-container"></div>
 
             <div class="help-section">
                 <p class="help-title">💡 Helper Phrases</p>
@@ -119,7 +115,7 @@
             <div class="summary-card">
                 <h2>Game Over!</h2>
                 
-                <!-- NYTT: Leaderboard -->
+                <!-- Resultatliste -->
                 <div class="leaderboard-box">
                     <h3>🏆 Final Scores:</h3>
                     <ul id="leaderboard-list"></ul>
@@ -139,6 +135,7 @@
 
     </div>
 
+    <!-- Viktig: Scriptet lastes helt til slutt -->
     <script src="script.js"></script>
 </body>
 </html>
