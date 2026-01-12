@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classroom Alias</title>
+    <title>Classroom Alias 2.0</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,7 +15,7 @@
             <h1>🇬🇧 Classroom Alias</h1>
             
             <div class="settings-group">
-                <label>Choose Category:</label>
+                <label>Category:</label>
                 <select id="category-select">
                     <option value="general">General English</option>
                     <option value="gaming">Gaming & Social Media</option>
@@ -33,11 +33,12 @@
             </div>
 
             <div class="settings-group">
-                <label>Time per round:</label>
+                <label>Timer:</label>
                 <select id="timer-select">
                     <option value="45">45 Seconds</option>
                     <option value="60" selected>60 Seconds</option>
                     <option value="90">90 Seconds</option>
+                    <option value="unlimited">Unlimited Time (No Stress)</option>
                 </select>
             </div>
 
@@ -51,46 +52,37 @@
                 <div class="score">Score: <span id="score-display">0</span></div>
             </div>
 
-            <div class="card">
-                <h2 id="current-word">WORD</h2>
-                
-                <!-- Only visible in HARD mode -->
-                <div id="forbidden-words" class="hidden">
-                    <p class="forbidden-label">Don't say:</p>
-                    <ul id="forbidden-list"></ul>
-                </div>
-            </div>
+            <p class="instruction-text">Pick a card to reveal the word!</p>
 
-            <div class="controls">
-                <button onclick="passWord()" class="btn-pass">Pass (-1)</button>
-                <button onclick="correctWord()" class="btn-correct">Correct (+1)</button>
+            <!-- Her kommer de 8 kortene -->
+            <div id="card-grid" class="card-grid"></div>
+
+            <div class="controls hidden" id="action-buttons">
+                <button onclick="handleResult('pass')" class="btn-pass">Pass (-1)</button>
+                <button onclick="handleResult('correct')" class="btn-correct">Correct (+1)</button>
             </div>
 
             <!-- Scaffolding / Help -->
             <div class="help-section">
                 <p class="help-title">Need help?</p>
                 <div class="help-phrases">
-                    <span>"It's a thing you use for..."</span>
                     <span>"It looks like..."</span>
                     <span>"It's the opposite of..."</span>
-                    <span>"It rhymes with..."</span>
                 </div>
             </div>
         </section>
 
-        <!-- SCREEN 3: ROUND SUMMARY -->
+        <!-- SCREEN 3: SUMMARY -->
         <section id="summary-screen" class="screen hidden">
             <h2>Round Over!</h2>
             <p>Total Score: <span id="final-score">0</span></p>
             
             <div class="review-box">
-                <h3>Let's review the words:</h3>
-                <ul id="review-list">
-                    <!-- Javascript puts words here -->
-                </ul>
+                <h3>Words used:</h3>
+                <ul id="review-list"></ul>
             </div>
 
-            <button onclick="resetGame()" class="btn-primary">New Round / Menu</button>
+            <button onclick="resetGame()" class="btn-primary">New Round</button>
         </section>
 
     </div>
