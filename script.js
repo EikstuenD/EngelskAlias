@@ -1,4 +1,4 @@
-/* --- DATA (Inkludert alle de nye kategoriene) --- */
+/* --- DATA --- */
 const gameData = {
     general: {
         easy: ["Apple", "Car", "Sun", "Book", "Chair", "Shoe", "Tree", "Moon", "Cat", "Door", "Water", "Smile"],
@@ -7,7 +7,7 @@ const gameData = {
             { word: "Democracy", forbidden: ["Vote", "Country", "Election"] },
             { word: "Freedom", forbidden: ["Free", "Prison", "Liberty"] },
             { word: "Sustainability", forbidden: ["Green", "Earth", "Recycle"] },
-            { word: "Politics", forbidden: ["Government", "Vote", "Minister"] },
+            { word: "Politics", forbidden: ["Govt", "Vote", "Minister"] }, // Forkortet "Government" for plass
             { word: "Economy", forbidden: ["Money", "Bank", "Rich"] },
             { word: "Education", forbidden: ["School", "Teacher", "Learn"] },
             { word: "Environment", forbidden: ["Nature", "Climate", "Green"] },
@@ -18,7 +18,7 @@ const gameData = {
         easy: ["Mouse", "Screen", "Keyboard", "Headset", "Phone", "iPad", "Wifi", "Battery", "Charger", "Laptop"],
         medium: ["Streamer", "Level up", "Game Over", "Controller", "Online", "Update", "Loading", "Server", "Password", "Username"],
         hard: [
-            { word: "Influencer", forbidden: ["Social Media", "Followers", "Instagram"] },
+            { word: "Influencer", forbidden: ["Social", "Followers", "Instagram"] },
             { word: "Lag", forbidden: ["Slow", "Internet", "Glitch"] },
             { word: "Noob", forbidden: ["New", "Bad", "Player"] },
             { word: "Algorithm", forbidden: ["Math", "Code", "Feed"] },
@@ -29,7 +29,7 @@ const gameData = {
         easy: ["Pen", "Desk", "Teacher", "Bus", "Lunch", "Book", "Gym", "Math", "Ruler", "Bag"],
         medium: ["Principal", "Canteen", "Subject", "Blackboard", "Recess", "Library", "Exam", "Science", "History", "Project"],
         hard: [
-            { word: "Detention", forbidden: ["Punishment", "Stay", "School"] },
+            { word: "Detention", forbidden: ["Punish", "Stay", "School"] },
             { word: "Curriculum", forbidden: ["Plan", "Subjects", "Learn"] },
             { word: "Assignment", forbidden: ["Homework", "Task", "Teacher"] },
             { word: "Bullying", forbidden: ["Mean", "Fight", "Sad"] }
@@ -87,7 +87,7 @@ const gameData = {
     }
 };
 
-/* --- STATE VARIABLES --- */
+/* --- STATE --- */
 let activeCards = [];
 let score = 0;
 let timer;
@@ -99,7 +99,6 @@ let roundHistory = [];
 
 /* --- FUNCTIONS --- */
 
-// Bytter mellom skjermer (Setup, Game, Summary)
 function showScreen(id) {
     document.querySelectorAll('.screen').forEach(s => {
         s.classList.remove('active');
@@ -118,17 +117,16 @@ function startGame() {
 
     let sourceData = gameData[category][difficulty];
     
-    // Sjekker om det er nok ord
     if (!sourceData || sourceData.length < 8) {
         alert("Ops! Not enough words in this category yet (Need 8). Try another category.");
         return;
     }
 
-    // Stokker ordene og velger 8
+    // Shuffle
     let shuffled = [...sourceData].sort(() => 0.5 - Math.random());
     activeCards = shuffled.slice(0, 8);
 
-    // Nullstiller
+    // Reset State
     score = 0;
     wordsSolved = 0;
     roundHistory = [];
@@ -136,7 +134,7 @@ function startGame() {
     document.getElementById('score-display').innerText = score;
     document.getElementById('action-buttons').classList.add('hidden');
 
-    // Timer Logic
+    // Setup Timer
     clearInterval(timer); 
     if (timeVal === "unlimited") {
         isUnlimitedTime = true;
@@ -152,21 +150,22 @@ function startGame() {
     showScreen('game-screen');
 }
 
-// Funksjon for å gå tilbake til menyen
+// FIX: Denne funksjonen stopper nå timeren skikkelig og bytter skjerm
 function goToMenu() {
+    console.log("Returning to menu...");
     clearInterval(timer);
     showScreen('setup-screen');
 }
 
 function setupGrid(difficulty) {
     const grid = document.getElementById('card-grid');
-    grid.innerHTML = ""; // Tømmer rutenettet
+    grid.innerHTML = "";
 
     activeCards.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = 'game-card';
         card.dataset.index = index;
-        card.innerText = index + 1; // Tallet på baksiden
+        card.innerText = index + 1; 
         card.onclick = () => flipCard(index, item);
         grid.appendChild(card);
     });
@@ -174,12 +173,12 @@ function setupGrid(difficulty) {
 
 function flipCard(index, item) {
     const cardEl = document.querySelector(`.game-card[data-index='${index}']`);
+    
+    // Hvis kortet er ferdig eller allerede åpent
     if (cardEl.classList.contains('solved') || cardEl.classList.contains('skipped')) return;
-
-    // Hvis vi trykker på det samme kortet igjen
     if (currentSelectedCardIndex === index) return;
 
-    // Lukk alle andre kort visuelt
+    // Lukk andre kort
     document.querySelectorAll('.game-card').forEach(c => {
         if (!c.classList.contains('solved') && !c.classList.contains('skipped')) {
             c.classList.remove('flipped');
@@ -190,23 +189,20 @@ function flipCard(index, item) {
     currentSelectedCardIndex = index;
     cardEl.classList.add('flipped');
     
-    // Generer innholdet på kortet
     let contentHtml = "";
     if (typeof item === 'string') {
         contentHtml = `<div class="card-content"><span class="word-text">${item}</span></div>`;
     } else {
-        // Taboo / Hard mode
+        // Taboo
         let forbiddenHtml = item.forbidden.map(f => `<li>🚫 ${f}</li>`).join('');
         contentHtml = `
             <div class="card-content">
-                <span class="word-text" style="color:#E74C3C; font-size:1.2rem;">${item.word}</span>
+                <span class="word-text" style="color:#E74C3C; font-size:1.1rem;">${item.word}</span>
                 <ul class="forbidden-list">${forbiddenHtml}</ul>
             </div>
         `;
     }
     cardEl.innerHTML = contentHtml;
-
-    // Vis knappene
     document.getElementById('action-buttons').classList.remove('hidden');
 }
 
@@ -222,12 +218,11 @@ function handleResult(action) {
         cardEl.classList.add('solved');
         roundHistory.push({ word: wordText, status: "correct" });
     } else {
-        score--; // Minuspoeng
+        score--; // Minus points
         cardEl.classList.add('skipped');
         roundHistory.push({ word: wordText, status: "passed" });
     }
 
-    // Fjern teksten på kortet, vis symbol
     cardEl.classList.remove('flipped');
     cardEl.innerHTML = action === 'correct' ? "★" : "X"; 
 
@@ -265,10 +260,8 @@ function endGame() {
         li.style.color = (r.status === 'correct') ? 'var(--correct)' : 'var(--pass)';
         li.style.fontWeight = "bold";
         li.style.marginBottom = "5px";
-        
         let icon = r.status === 'correct' ? ' ✅' : ' ❌';
         li.innerText += icon;
-        
         list.appendChild(li);
     });
 }
