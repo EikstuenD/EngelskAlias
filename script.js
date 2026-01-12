@@ -1,89 +1,95 @@
 /* --- DATA --- */
+// 18 Kategorier x 3 Nivåer x 8 Ord
 const gameData = {
     general: {
-        easy: ["Apple", "Car", "Sun", "Book", "Chair", "Shoe", "Tree", "Moon", "Cat", "Door", "Water", "Smile"],
-        medium: ["Breakfast", "Cinema", "Hospital", "Summer", "Library", "Friend", "Weekend", "Holiday", "Music", "Garden"],
-        hard: [
-            { word: "Democracy", forbidden: ["Vote", "Country", "Election"] },
-            { word: "Freedom", forbidden: ["Free", "Prison", "Liberty"] },
-            { word: "Sustainability", forbidden: ["Green", "Earth", "Recycle"] },
-            { word: "Politics", forbidden: ["Govt", "Vote", "Minister"] }, // Forkortet "Government" for plass
-            { word: "Economy", forbidden: ["Money", "Bank", "Rich"] },
-            { word: "Education", forbidden: ["School", "Teacher", "Learn"] },
-            { word: "Environment", forbidden: ["Nature", "Climate", "Green"] },
-            { word: "Technology", forbidden: ["Computer", "Phone", "Digital"] }
-        ]
-    },
-    gaming: {
-        easy: ["Mouse", "Screen", "Keyboard", "Headset", "Phone", "iPad", "Wifi", "Battery", "Charger", "Laptop"],
-        medium: ["Streamer", "Level up", "Game Over", "Controller", "Online", "Update", "Loading", "Server", "Password", "Username"],
-        hard: [
-            { word: "Influencer", forbidden: ["Social", "Followers", "Instagram"] },
-            { word: "Lag", forbidden: ["Slow", "Internet", "Glitch"] },
-            { word: "Noob", forbidden: ["New", "Bad", "Player"] },
-            { word: "Algorithm", forbidden: ["Math", "Code", "Feed"] },
-            { word: "Viral", forbidden: ["Famous", "Internet", "Video"] }
-        ]
-    },
-    school: {
-        easy: ["Pen", "Desk", "Teacher", "Bus", "Lunch", "Book", "Gym", "Math", "Ruler", "Bag"],
-        medium: ["Principal", "Canteen", "Subject", "Blackboard", "Recess", "Library", "Exam", "Science", "History", "Project"],
-        hard: [
-            { word: "Detention", forbidden: ["Punish", "Stay", "School"] },
-            { word: "Curriculum", forbidden: ["Plan", "Subjects", "Learn"] },
-            { word: "Assignment", forbidden: ["Homework", "Task", "Teacher"] },
-            { word: "Bullying", forbidden: ["Mean", "Fight", "Sad"] }
-        ]
-    },
-    family: {
-        easy: ["Mom", "Dad", "Baby", "Sister", "Brother", "House", "Room", "Cat", "Dog", "Grandma"],
-        medium: ["Cousin", "Wedding", "Birthday", "Parents", "Garden", "Kitchen", "Living room", "Neighbor"],
-        hard: [
-            { word: "Generation", forbidden: ["Age", "Old", "Young"] },
-            { word: "Ancestors", forbidden: ["Dead", "Family", "History"] },
-            { word: "Inheritance", forbidden: ["Money", "Die", "Will"] },
-            { word: "Sibling", forbidden: ["Brother", "Sister", "Family"] }
-        ]
-    },
-    shopping: {
-        easy: ["Money", "Shop", "Bag", "Food", "Clothes", "Shoe", "Card", "Coin", "Price", "Sale"],
-        medium: ["Receipt", "Cashier", "Wallet", "Expensive", "Cheap", "Customer", "Market", "Mall"],
-        hard: [
-            { word: "Inflation", forbidden: ["Prices", "High", "Money"] },
-            { word: "Discount", forbidden: ["Sale", "Percent", "Cheap"] },
-            { word: "Budget", forbidden: ["Plan", "Spend", "Save"] },
-            { word: "Warranty", forbidden: ["Guarantee", "Break", "Fix"] }
-        ]
-    },
-    food: {
-        easy: ["Pizza", "Apple", "Banana", "Milk", "Bread", "Water", "Cake", "Ice cream", "Egg", "Fish"],
-        medium: ["Restaurant", "Breakfast", "Dinner", "Vegetable", "Kitchen", "Chef", "Menu", "Waiter"],
-        hard: [
-            { word: "Vegetarian", forbidden: ["Meat", "Eat", "Animal"] },
-            { word: "Recipe", forbidden: ["Cook", "List", "Make"] },
-            { word: "Ingredients", forbidden: ["Food", "Make", "Mix"] },
-            { word: "Calories", forbidden: ["Energy", "Fat", "Diet"] }
-        ]
-    },
-    travel: {
-        easy: ["Car", "Bus", "Train", "Plane", "Boat", "Ticket", "Hotel", "Map", "Beach", "Sun"],
-        medium: ["Airport", "Passport", "Suitcase", "Tourist", "Holiday", "Station", "Traffic", "Driver"],
-        hard: [
-            { word: "Destination", forbidden: ["Place", "Go", "End"] },
-            { word: "Sightseeing", forbidden: ["Look", "Tour", "Camera"] },
-            { word: "Souvenir", forbidden: ["Buy", "Gift", "Memory"] },
-            { word: "Customs", forbidden: ["Airport", "Check", "Bag"] }
-        ]
+        easy: ["House", "Car", "Dog", "Cat", "Book", "Chair", "Sun", "Water"],
+        medium: ["Bicycle", "Garden", "Clock", "Kitchen", "Phone", "Newspaper", "Window", "Door"],
+        hard: ["Environment", "Electricity", "Transportation", "Government", "Furniture", "Celebration", "Technology", "Neighbour"]
     },
     emotions: {
-        easy: ["Happy", "Sad", "Angry", "Scared", "Funny", "Tired", "Sick", "Cold", "Hot", "Love"],
-        medium: ["Nervous", "Excited", "Bored", "Lonely", "Proud", "Jealous", "Surprised", "Lucky"],
-        hard: [
-            { word: "Anxiety", forbidden: ["Scared", "Nervous", "Fear"] },
-            { word: "Confidence", forbidden: ["Self", "Believe", "Strong"] },
-            { word: "Empathy", forbidden: ["Feel", "Understand", "Others"] },
-            { word: "Optimistic", forbidden: ["Positive", "Good", "Happy"] }
-        ]
+        easy: ["Happy", "Sad", "Angry", "Scared", "Tired", "Funny", "Good", "Bad"],
+        medium: ["Nervous", "Bored", "Lonely", "Excited", "Shy", "Proud", "Surprised", "Jealous"],
+        hard: ["Embarrassed", "Frustrated", "Disappointed", "Confused", "Anxious", "Grateful", "Guilty", "Curious"]
+    },
+    travel: {
+        easy: ["Bus", "Train", "Car", "Hotel", "Ticket", "Boat", "Beach", "Map"],
+        medium: ["Suitcase", "Airport", "Passport", "Tourist", "Camping", "Island", "Bridge", "Holiday"],
+        hard: ["Destination", "Accommodation", "Passenger", "Customs", "Sightseeing", "Currency", "Arrival", "Departure"]
+    },
+    food: {
+        easy: ["Pizza", "Apple", "Milk", "Bread", "Egg", "Candy", "Fish", "Ice cream"],
+        medium: ["Breakfast", "Chicken", "Vegetable", "Restaurant", "Waiter", "Onion", "Potato", "Cheese"],
+        hard: ["Ingredient", "Vegetarian", "Spicy", "Recipe", "Delicious", "Nutrition", "Cutlery", "Barbecue"]
+    },
+    shopping: {
+        easy: ["Money", "Shop", "Bag", "Price", "Clothes", "Shoe", "Sale", "Cash"],
+        medium: ["Customer", "Wallet", "Cheap", "Expensive", "Market", "Mall", "Gift", "Size"],
+        hard: ["Receipt", "Discount", "Cashier", "Changing room", "Credit card", "Brand", "Refund", "Queue"]
+    },
+    family: {
+        easy: ["Mom", "Dad", "Sister", "Brother", "Baby", "Grandma", "Grandpa", "Boy"],
+        medium: ["Aunt", "Uncle", "Cousin", "Parents", "Husband", "Wife", "Twins", "Pet"],
+        hard: ["Relative", "Stepfather", "Nephew", "Niece", "Generation", "Ancestor", "Sibling", "Adoption"]
+    },
+    school: {
+        easy: ["Pen", "Desk", "Teacher", "Book", "Class", "Bag", "Ruler", "Student"],
+        medium: ["Homework", "Exam", "Break", "Gym", "Eraser", "Computer", "Library", "Subject"],
+        hard: ["Principal", "Curriculum", "Detention", "Calculator", "Schedule", "Education", "Grades", "Presentation"]
+    },
+    gaming: {
+        easy: ["Game", "Win", "Lose", "PC", "Mouse", "Keyboard", "Screen", "Play"],
+        medium: ["Level", "Online", "Team", "Cheat", "Password", "Headset", "Controller", "Zombie"],
+        hard: ["Graphics", "Multiplayer", "Connection", "Update", "Strategy", "Console", "Glitch", "Virtual Reality"]
+    },
+    social: {
+        easy: ["Phone", "Picture", "Video", "Chat", "Like", "App", "WiFi", "Link"],
+        medium: ["Comment", "Share", "Profile", "Message", "Block", "Search", "Follower", "Selfie"],
+        hard: ["Influencer", "Algorithm", "Privacy", "Notification", "Hashtag", "Fake news", "Viral", "Subscribe"]
+    },
+    movies: {
+        easy: ["Song", "Star", "Film", "Cinema", "Pop", "Rock", "Drum", "Radio"],
+        medium: ["Actor", "Concert", "Ticket", "Horror", "Comedy", "Scene", "Guitar", "Singer"],
+        hard: ["Director", "Soundtrack", "Audience", "Celebrity", "Lyrics", "Instrument", "Genre", "Special effects"]
+    },
+    sports: {
+        easy: ["Football", "Run", "Swim", "Ball", "Goal", "Dance", "Paint", "Bike"],
+        medium: ["Team", "Match", "Helmet", "Skiing", "Drawing", "Reading", "Training", "Score"],
+        hard: ["Referee", "Competition", "Equipment", "Victory", "Tournament", "Knitting", "Opponent", "Hobby"]
+    },
+    body: {
+        easy: ["Head", "Leg", "Arm", "Eye", "Sick", "Doctor", "Hand", "Foot"],
+        medium: ["Stomach", "Heart", "Brain", "Muscle", "Fever", "Medicine", "Blood", "Dentist"],
+        hard: ["Skeleton", "Surgery", "Appointment", "Ambulance", "Infection", "Mental health", "Vaccine", "Throat"]
+    },
+    jobs: {
+        easy: ["Police", "Doctor", "Teacher", "Driver", "Farmer", "Cook", "Singer", "King"],
+        medium: ["Nurse", "Firefighter", "Boss", "Artist", "Worker", "Pilot", "Soldier", "Actor"],
+        hard: ["Lawyer", "Carpenter", "Scientist", "Engineer", "Journalist", "Mechanic", "Salary", "Interview"]
+    },
+    weather: {
+        easy: ["Sun", "Rain", "Snow", "Wind", "Tree", "Flower", "Moon", "Star"],
+        medium: ["Storm", "Cloud", "Forest", "River", "Mountain", "Summer", "Winter", "Ice"],
+        hard: ["Climate", "Lightning", "Thunder", "Temperature", "Hurricane", "Pollution", "Forecast", "Earthquake"]
+    },
+    action: {
+        easy: ["Eat", "Sleep", "Run", "Jump", "Talk", "Walk", "Play", "Stop"],
+        medium: ["Shout", "Think", "Learn", "Watch", "Build", "Drive", "Cook", "Dance"],
+        hard: ["Whisper", "Argue", "Imagine", "Discover", "Decide", "Create", "Remember", "Promise"]
+    },
+    describing: {
+        easy: ["Big", "Small", "Red", "Blue", "Good", "Bad", "Fast", "Hot"],
+        medium: ["Beautiful", "Strong", "Smart", "Boring", "Clean", "Dirty", "Rich", "Poor"],
+        hard: ["Dangerous", "Mysterious", "Delicious", "Comfortable", "Ancient", "Necessary", "Invisible", "Typical"]
+    },
+    world: {
+        easy: ["USA", "UK", "London", "New York", "English", "Flag", "Cowboy", "Tea"],
+        medium: ["Dollar", "Castle", "Queen", "Halloween", "Christmas", "Soldier", "Farm", "Capital"],
+        hard: ["Statue of Liberty", "Kangaroo", "Tradition", "Thanksgiving", "Accent", "Skyscraper", "Empire", "Native"]
+    },
+    crime: {
+        easy: ["Police", "Thief", "Gun", "Dead", "Jail", "Run", "Money", "Bad guy"],
+        medium: ["Prison", "Killer", "Blood", "Secret", "Spy", "Fight", "Steal", "Mask"],
+        hard: ["Detective", "Evidence", "Murder", "Guilty", "Innocent", "Witness", "Mystery", "Weapon"]
     }
 };
 
@@ -117,14 +123,15 @@ function startGame() {
 
     let sourceData = gameData[category][difficulty];
     
+    // Safety check if category is empty
     if (!sourceData || sourceData.length < 8) {
-        alert("Ops! Not enough words in this category yet (Need 8). Try another category.");
+        alert("Ops! Not enough words in this category yet. Need at least 8.");
         return;
     }
 
-    // Shuffle
+    // Clone array and shuffle (To ensure we don't modify original data)
     let shuffled = [...sourceData].sort(() => 0.5 - Math.random());
-    activeCards = shuffled.slice(0, 8);
+    activeCards = shuffled.slice(0, 8); // Take first 8
 
     // Reset State
     score = 0;
@@ -134,7 +141,7 @@ function startGame() {
     document.getElementById('score-display').innerText = score;
     document.getElementById('action-buttons').classList.add('hidden');
 
-    // Setup Timer
+    // Timer Logic
     clearInterval(timer); 
     if (timeVal === "unlimited") {
         isUnlimitedTime = true;
@@ -150,9 +157,7 @@ function startGame() {
     showScreen('game-screen');
 }
 
-// FIX: Denne funksjonen stopper nå timeren skikkelig og bytter skjerm
 function goToMenu() {
-    console.log("Returning to menu...");
     clearInterval(timer);
     showScreen('setup-screen');
 }
@@ -174,11 +179,10 @@ function setupGrid(difficulty) {
 function flipCard(index, item) {
     const cardEl = document.querySelector(`.game-card[data-index='${index}']`);
     
-    // Hvis kortet er ferdig eller allerede åpent
     if (cardEl.classList.contains('solved') || cardEl.classList.contains('skipped')) return;
     if (currentSelectedCardIndex === index) return;
 
-    // Lukk andre kort
+    // Reset other cards
     document.querySelectorAll('.game-card').forEach(c => {
         if (!c.classList.contains('solved') && !c.classList.contains('skipped')) {
             c.classList.remove('flipped');
@@ -189,11 +193,12 @@ function flipCard(index, item) {
     currentSelectedCardIndex = index;
     cardEl.classList.add('flipped');
     
+    // Render content (Note: Hard mode is now simple words too, but code handles objects if added later)
     let contentHtml = "";
     if (typeof item === 'string') {
         contentHtml = `<div class="card-content"><span class="word-text">${item}</span></div>`;
     } else {
-        // Taboo
+        // Keeps support for Forbidden words if you add them later
         let forbiddenHtml = item.forbidden.map(f => `<li>🚫 ${f}</li>`).join('');
         contentHtml = `
             <div class="card-content">
